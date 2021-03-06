@@ -1,0 +1,36 @@
+---
+- name: Install Ansible, clone repos
+  hosts: nameNode
+  # verbose: yes
+  # connection: local
+  # gather_facts: no
+    
+  tasks:
+    - name: Curl Get-pip.py
+      become: yes
+      get_url:
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: /home/vagrant/get-pip.py
+        mode: 744
+
+
+    - name: run get-pip.py
+      become: yes
+      command: "python3 get-pip.py"
+
+    - name: Install Ansible via pip
+      pip:
+        name: ansible
+        state: present
+        # force: yes
+        executable: pip3
+      
+    # - name: Clone ansible and flow repos
+    #   git:
+    #     repo: "{{ item }}"
+    #     dest: /dumbo-octopus
+    #     clone: true
+    #     update: true
+    #   with_items:
+    #     - https://github.com/dumbo-octopus/flow
+    #     - https://github.com/dumbo-octopus/ansible
