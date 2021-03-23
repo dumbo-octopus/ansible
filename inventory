@@ -4,9 +4,18 @@
 [nameNode]
 192.168.60.11
 
+[nameNode]
+192.168.60.12
+
+[dataNode]
+192.168.70.11
+192.168.70.12
+
+
 [multi:children]
 edgeNode
 nameNode
+dataNode
 
 [multi:vars]
 ansible_ssh_user=vagrant

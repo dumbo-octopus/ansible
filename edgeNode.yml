@@ -1,39 +1,13 @@
 ---
-- name: Install Ansible, clone repos
-  hosts: nameNode
-  # verbose: yes
-  # connection: local
-  # gather_facts: no
-    
-  tasks:
-    - name: Curl Get-pip.py
-      become: yes
-      get_url:
-        url: https://bootstrap.pypa.io/get-pip.py
-        dest: /home/vagrant/get-pip.py
-        mode: 744
-        
-    - name: run get-pip.py
-      become: yes
-      command: "python3 get-pip.py"
+- name: EdgeNode playbook
+  hosts: nameNode #or other
 
-    - name: Install Ansible via pip
-      pip:
-        name: ansible
-        state: present
-        # force: yes
-        executable: pip3
+  tasks:
+    - name: Install Ansible using a playbook
+      import_playbook: ansible-install.yml
+
+    - name: Clone /flow and /ansible repos
+      import_playbook: clone-repos.yml
+
       
-    - name: Clone ansible repo
-      become: yes
-      git:
-        repo: https://github.com/dumbo-octopus/ansible
-        dest: /dumbo-octopus/ansible
-        clone: true
-    
-    - name: Clone flow repo
-      become: yes
-      git:
-        repo: https://github.com/dumbo-octopus/flow
-        dest: /dumbo-octopus/flow
-        clone: true
+

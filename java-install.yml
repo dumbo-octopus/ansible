@@ -1,0 +1,13 @@
+---
+- name: Playbook for installing openjdk8
+  hosts: nameNode
+  gather_facts: no
+  tasks:
+    - name: Install openjdk using apt
+      become: yes
+      apt: 
+        name: openjdk-8-jdk
+        state: present
+
+    # - name: Check Java version
+    #   command: "java -version"
