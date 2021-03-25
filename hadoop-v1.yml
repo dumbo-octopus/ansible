@@ -1,0 +1,12 @@
+---
+- name: Playbook to meet the prerequisites for installing Hadoop
+  hosts: nameNode
+  gather_facts: no
+
+  tasks:
+    - name: Download Hadoop from Apache site
+      get_url:
+        url: "https://apache.mirrors.tworzy.net/hadoop/common/hadoop-3.3.0/hadoop-3.3.0-src.tar.gz"
+        dest: /hadoop
+        checksum: "sha512:https://downloads.apache.org/hadoop/common/hadoop-3.3.0/hadoop-3.3.0-src.tar.gz.sha512"
+        
