@@ -1,0 +1,38 @@
+---
+- name: Playbook to meet the prerequisites for installing Hadoop
+  hosts: nameNode
+  gather_facts: no
+  tasks:
+    - name: Create /hadoop
+      become: yes
+      file:
+        path: /home/hadoop
+        state: directory
+        mode: 0755
+        owner: vagrant
+
+    - name: Download Hadoop from Apache site
+    # check if it can be done without become
+      become: yes
+      get_url:
+        # source
+        # url: "https://apache.mirrors.tworzy.net/hadoop/common/hadoop-3.3.0/hadoop-3.3.0-src.tar.gz"
+        # checksum: "sha512:3363782625e28402947c6a0bd5dddcc3481c8691ba59cbb369634bc5b1ae610e1eed9b542ce151c86ec8faa69df90fb53f35c2e4133058075e53728a22800f3d"
+
+        # binary
+        url: "https://apache.mirrors.tworzy.net/hadoop/common/hadoop-3.3.0/hadoop-3.3.0-aarch64.tar.gz"
+        checksum: "sha512:8322868e255e3d84a2e796cc7728cdae2d06b3fdf26e1034eaeab91341ecafe7ce58a238f9fd0aceb4c905c80230fe3267fbe53ebaa0a78ec44a0d1f9df64006"
+        dest: /home/hadoop/hadoop-3.3.0.tar.gz
+        force: yes
+
+        mode: 0666
+                
+
+    - name: Extract the hadoop tarball
+      become: yes
+      unarchive:
+        # src: /home/hadoop/hadoop-3.3.0-src.tar.gz
+        src: /home/hadoop/hadoop-3.3.0.tar.gz
+        dest: /home/hadoop
+        remote_src: yes
+        
