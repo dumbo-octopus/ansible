@@ -2,11 +2,23 @@
 - name: Playbook to meet the prerequisites for installing Hadoop
   hosts: nameNode
   gather_facts: no
-
   tasks:
+    - name: Create /hadoop
+      become: yes
+      file:
+        path: /hadoop
+        state: directory
+        mode: 0666
+        # owner: vagrant
+
     - name: Download Hadoop from Apache site
+    # check if it can be done without become
+      become: yes
       get_url:
         url: "https://apache.mirrors.tworzy.net/hadoop/common/hadoop-3.3.0/hadoop-3.3.0-src.tar.gz"
-        dest: /hadoop
-        checksum: "sha512:https://downloads.apache.org/hadoop/common/hadoop-3.3.0/hadoop-3.3.0-src.tar.gz.sha512"
-        
+        dest: /hadoop/hadoop-3.3.0-src.tar.gz
+        force: yes
+        checksum: "sha512:3363782625e28402947c6a0bd5dddcc3481c8691ba59cbb369634bc5b1ae610e1eed9b542ce151c86ec8faa69df90fb53f35c2e4133058075e53728a22800f3d"
+        mode: 0666
+        # check if checksum can be taken directly from the site (not copy-pasted here)
+        # checksum: "sha512:https://downloads.apache.org/hadoop/common/hadoop-3.3.0/hadoop-3.3.0-src.tar.gz.sha512"
