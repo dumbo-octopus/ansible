@@ -1,0 +1,46 @@
+---
+- name: Playbook to meet the prerequisites for installing Hadoop
+  hosts: nameNode
+  gather_facts: no
+  tasks:
+
+    # TODO: configure ssh to work from edgeNode
+
+    - name: Create hadoop group
+      become: yes
+      group:
+        name: hadoop
+        state: present
+
+
+    - name: Create hadoop user
+      become: yes
+      user:
+        name: hadoop
+        state: present
+        groups:
+          - hadoop
+          - sudo
+        generate_ssh_key: yes
+
+    - name: Create mapred user
+      become: yes
+      user:
+        name: mapred
+        state: present
+        groups:
+          - hadoop
+          - sudo
+        generate_ssh_key: yes
+        
+        
+    - name: Create yarn user
+      become: yes
+      user:
+        name: yarn
+        state: present
+        groups:
+          - hadoop
+          - sudo
+        generate_ssh_key: yes
+        
